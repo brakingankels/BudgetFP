@@ -21,7 +21,15 @@
             android:exported="false" />
 
         <activity
+            android:name=".activities.ExpenseListActivity"
+            android:exported="false" />
+
+        <activity
             android:name=".activities.ExpenseActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".activities.ReportsActivity"
             android:exported="false" />
 
         <activity android:name=".activities.DashboardActivity"

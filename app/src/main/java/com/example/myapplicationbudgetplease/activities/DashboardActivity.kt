@@ -1,5 +1,3 @@
-
-
 package com.example.myapplicationbudgetplease.activities
 
 import android.content.Intent
@@ -17,6 +15,19 @@ class DashboardActivity : AppCompatActivity() {
         val btnCategories =
             findViewById<Button>(R.id.btnCategories)
 
+        val btnExpenses =
+            findViewById<Button>(R.id.btnExpenses)
+
+        val btnGoals = 
+            findViewById<Button>(R.id.btnGoals)
+
+        val btnViewExpenses =
+            findViewById<Button>(R.id.btnViewExpenses)
+
+        val btnReports =
+            findViewById<Button>(R.id.btnReports)
+
+
         btnCategories.setOnClickListener {
 
             startActivity(
@@ -26,7 +37,6 @@ class DashboardActivity : AppCompatActivity() {
                 )
             )
         }
-        val btnExpenses = findViewById<Button>(R.id.btnExpenses)
 
         btnExpenses.setOnClickListener {
 
@@ -36,10 +46,33 @@ class DashboardActivity : AppCompatActivity() {
                     ExpenseActivity::class.java
                 )
             )
+        }
+
+        btnGoals.setOnClickListener {
+
             startActivity(
                 Intent(
                     this,
                     GoalActivity::class.java
+                )
+            )
+        }
+
+        btnViewExpenses.setOnClickListener {
+
+            startActivity(
+                Intent(
+                    this,
+                    ExpenseListActivity::class.java
+                )
+            )
+        }
+        btnReports.setOnClickListener {
+
+            startActivity(
+                Intent(
+                    this,
+                    ReportsActivity::class.java
                 )
             )
         }
