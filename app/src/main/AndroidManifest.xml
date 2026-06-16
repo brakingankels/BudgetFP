@@ -16,8 +16,20 @@
             android:exported="false">
         </activity>
 
+        <activity
+            android:name=".activities.CategoryActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".activities.ExpenseActivity"
+            android:exported="false" />
+
         <activity android:name=".activities.DashboardActivity"
             android:exported="false"/>
+
+        <activity
+            android:name=".activities.GoalActivity"
+            android:exported="false" />
 
         <activity
             android:name=".activities.LoginActivity"
