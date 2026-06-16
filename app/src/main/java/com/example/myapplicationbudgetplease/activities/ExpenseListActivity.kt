@@ -1,6 +1,7 @@
 package com.example.myapplicationbudgetplease.activities
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -29,6 +30,12 @@ class ExpenseListActivity : AppCompatActivity() {
                 BudgetDatabase.getDatabase(this@ExpenseListActivity)
                     .expenseDao()
                     .getAllExpenses()
+
+            Toast.makeText(
+                this@ExpenseListActivity,
+                "Expenses Found: ${expenses.size}",
+                Toast.LENGTH_LONG
+            ).show()
 
             recycler.adapter =
                 ExpenseAdapter(expenses)

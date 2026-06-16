@@ -6,7 +6,10 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplicationbudgetplease.R
+import com.example.myapplicationbudgetplease.adapters.CategoryAdapter
 import com.example.myapplicationbudgetplease.database.BudgetDatabase
 import com.example.myapplicationbudgetplease.database.entities.Category
 import kotlinx.coroutines.launch
@@ -15,6 +18,8 @@ class CategoryActivity : AppCompatActivity() {
 
     private lateinit var edtCategory: EditText
     private lateinit var btnAddCategory: Button
+    private lateinit var recycler: RecyclerView
+    private lateinit var db: BudgetDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,12 +27,19 @@ class CategoryActivity : AppCompatActivity() {
 
         edtCategory = findViewById(R.id.edtCategory)
         btnAddCategory = findViewById(R.id.btnAddCategory)
+        recycler = findViewById(R.id.recyclerCategories)
 
-        val db = BudgetDatabase.getDatabase(this)
+        db = BudgetDatabase.getDatabase(this)
+
+        recycler.layoutManager =
+            LinearLayoutManager(this)
+
+        loadCategories()
 
         btnAddCategory.setOnClickListener {
 
-            val categoryName = edtCategory.text.toString().trim()
+            val categoryName =
+                edtCategory.text.toString().trim()
 
             if (categoryName.isEmpty()) {
                 Toast.makeText(
@@ -44,6 +56,8 @@ class CategoryActivity : AppCompatActivity() {
                     Category(name = categoryName)
                 )
 
+                loadCategories()
+
                 Toast.makeText(
                     this@CategoryActivity,
                     "Category Added",
@@ -52,6 +66,19 @@ class CategoryActivity : AppCompatActivity() {
 
                 edtCategory.setText("")
             }
+        }
+    }
+
+    private fun loadCategories() {
+
+        lifecycleScope.launch {
+
+            val categories =
+                db.categoryDao()
+                    .getAllCategories()
+
+            recycler.adapter =
+                CategoryAdapter(categories)
         }
     }
 }

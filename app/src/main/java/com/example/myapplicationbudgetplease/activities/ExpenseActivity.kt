@@ -13,6 +13,12 @@ import kotlinx.coroutines.launch
 import android.net.Uri
 import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContracts
+import android.widget.ArrayAdapter
+import android.widget.Spinner
+import com.example.myapplicationbudgetplease.database.entities.Category
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
+import java.util.Calendar
 
 class ExpenseActivity : AppCompatActivity() {
     private var selectedImageUri: Uri? = null
@@ -35,13 +41,124 @@ class ExpenseActivity : AppCompatActivity() {
         val edtDescription = findViewById<EditText>(R.id.edtDescription)
         val edtAmount = findViewById<EditText>(R.id.edtAmount)
         val edtDate = findViewById<EditText>(R.id.edtDate)
+        edtDate.setOnClickListener {
+
+            val calendar = Calendar.getInstance()
+
+            val year = calendar.get(Calendar.YEAR)
+            val month = calendar.get(Calendar.MONTH)
+            val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+            DatePickerDialog(
+                this,
+                { _, selectedYear, selectedMonth, selectedDay ->
+
+                    val date =
+                        String.format(
+                            "%04d-%02d-%02d",
+                            selectedYear,
+                            selectedMonth + 1,
+                            selectedDay
+                        )
+
+                    edtDate.setText(date)
+                },
+                year,
+                month,
+                day
+            ).show()
+        }
+        edtDate.isFocusable = false
         val edtStartTime = findViewById<EditText>(R.id.edtStartTime)
+        edtStartTime.isFocusable = false
+
+        edtStartTime.setOnClickListener {
+
+            val calendar = Calendar.getInstance()
+
+            val hour =
+                calendar.get(Calendar.HOUR_OF_DAY)
+
+            val minute =
+                calendar.get(Calendar.MINUTE)
+
+            TimePickerDialog(
+                this,
+                { _, selectedHour, selectedMinute ->
+
+                    edtStartTime.setText(
+                        String.format(
+                            "%02d:%02d",
+                            selectedHour,
+                            selectedMinute
+                        )
+                    )
+                },
+                hour,
+                minute,
+                true
+            ).show()
+        }
         val edtEndTime = findViewById<EditText>(R.id.edtEndTime)
-        val edtCategoryId = findViewById<EditText>(R.id.edtCategoryId)
+        edtEndTime.isFocusable = false
+
+        edtEndTime.setOnClickListener {
+
+            val calendar = Calendar.getInstance()
+
+            val hour =
+                calendar.get(Calendar.HOUR_OF_DAY)
+
+            val minute =
+                calendar.get(Calendar.MINUTE)
+
+            TimePickerDialog(
+                this,
+                { _, selectedHour, selectedMinute ->
+
+                    edtEndTime.setText(
+                        String.format(
+                            "%02d:%02d",
+                            selectedHour,
+                            selectedMinute
+                        )
+                    )
+                },
+                hour,
+                minute,
+                true
+            ).show()
+        }
+        val spinnerCategories =
+            findViewById<Spinner>(R.id.spinnerCategories)
 
         val btnSaveExpense = findViewById<Button>(R.id.btnSaveExpense)
 
         val db = BudgetDatabase.getDatabase(this)
+        var categoryList = listOf<Category>()
+
+        lifecycleScope.launch {
+
+            categoryList =
+                db.categoryDao()
+                    .getAllCategories()
+
+            val categoryNames =
+                categoryList.map { it.name }
+
+            val adapter =
+                ArrayAdapter(
+                    this@ExpenseActivity,
+                    android.R.layout.simple_spinner_item,
+                    categoryNames
+                )
+
+            adapter.setDropDownViewResource(
+                android.R.layout.simple_spinner_dropdown_item
+            )
+
+            spinnerCategories.adapter = adapter
+        }
 
         val btnChoosePhoto =
             findViewById<Button>(R.id.btnChoosePhoto)
@@ -62,15 +179,14 @@ class ExpenseActivity : AppCompatActivity() {
             val date = edtDate.text.toString().trim()
             val startTime = edtStartTime.text.toString().trim()
             val endTime = edtEndTime.text.toString().trim()
-            val categoryIdText = edtCategoryId.text.toString().trim()
+
 
             if (
                 description.isEmpty() ||
                 amountText.isEmpty() ||
                 date.isEmpty() ||
                 startTime.isEmpty() ||
-                endTime.isEmpty() ||
-                categoryIdText.isEmpty()
+                endTime.isEmpty()
             ) {
                 Toast.makeText(
                     this,
@@ -89,7 +205,10 @@ class ExpenseActivity : AppCompatActivity() {
                         date = date,
                         startTime = startTime,
                         endTime = endTime,
-                        categoryId = categoryIdText.toInt(),
+                        categoryId =
+                            categoryList[
+                                spinnerCategories.selectedItemPosition
+                            ].id,
                         imageUri = selectedImageUri?.toString()
                     )
                 )
@@ -105,7 +224,6 @@ class ExpenseActivity : AppCompatActivity() {
                 edtDate.setText("")
                 edtStartTime.setText("")
                 edtEndTime.setText("")
-                edtCategoryId.setText("")
             }
         }
     }
