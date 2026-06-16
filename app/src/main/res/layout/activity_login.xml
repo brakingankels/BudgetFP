@@ -33,7 +33,30 @@
         android:text="Login"
         app:layout_constraintTop_toBottomOf="@id/edtPassword"
         app:layout_constraintStart_toStartOf="@id/edtPassword"
+        app:layout_constraintEnd_toStartOf="@+id/btnRegisterMain"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"/>
+
+    <Button
+        android:id="@+id/btnRegisterMain"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/register"
+        app:layout_constraintTop_toTopOf="@id/btnLogin"
+        app:layout_constraintStart_toEndOf="@id/btnLogin"
         app:layout_constraintEnd_toEndOf="@id/edtPassword"
-        android:layout_marginTop="24dp"/>
+        android:layout_marginStart="8dp"/>
+
+    <Button
+        android:id="@+id/btnGoToRegister"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Don't have an account? Sign Up"
+        style="?android:attr/borderlessButtonStyle"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/btnLogin"
+        app:layout_constraintStart_toStartOf="@id/btnLogin"
+        app:layout_constraintEnd_toEndOf="@id/btnLogin" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
