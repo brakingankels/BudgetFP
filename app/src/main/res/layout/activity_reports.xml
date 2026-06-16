@@ -7,28 +7,28 @@
     android:padding="16dp">
 
     <EditText
-        android:id="@+id/edtMinGoal"
+        android:id="@+id/edtStartDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Minimum Monthly Goal"
-        android:inputType="numberDecimal" />
+        android:hint="Start Date (YYYY-MM-DD)" />
 
     <EditText
-        android:id="@+id/edtMaxGoal"
+        android:id="@+id/edtEndDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Maximum Monthly Goal"
-        android:inputType="numberDecimal" />
+        android:hint="End Date (YYYY-MM-DD)" />
 
     <Button
-        android:id="@+id/btnSaveGoal"
+        android:id="@+id/btnGenerateReport"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Save Goals" />
-    <SeekBar
-        android:id="@+id/seekBudget"
+        android:text="Generate Report" />
+
+    <TextView
+        android:id="@+id/txtReportResults"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:max="10000"/>
+        android:text="Results will appear here"
+        android:paddingTop="16dp" />
 
 </LinearLayout>

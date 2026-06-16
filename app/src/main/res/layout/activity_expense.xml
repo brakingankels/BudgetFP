@@ -47,6 +47,18 @@
             android:hint="Category ID" />
 
         <Button
+            android:id="@+id/btnChoosePhoto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Choose Photo" />
+
+        <ImageView
+            android:id="@+id/imgPreview"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="8dp" />
+
+        <Button
             android:id="@+id/btnSaveExpense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

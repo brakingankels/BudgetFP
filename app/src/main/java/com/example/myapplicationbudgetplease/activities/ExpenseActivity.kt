@@ -10,9 +10,24 @@ import com.example.myapplicationbudgetplease.R
 import com.example.myapplicationbudgetplease.database.BudgetDatabase
 import com.example.myapplicationbudgetplease.database.entities.Expense
 import kotlinx.coroutines.launch
+import android.net.Uri
+import android.widget.ImageView
+import androidx.activity.result.contract.ActivityResultContracts
 
 class ExpenseActivity : AppCompatActivity() {
+    private var selectedImageUri: Uri? = null
 
+    private val imagePickerLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.GetContent()
+        ) { uri ->
+
+            if (uri != null) {
+                selectedImageUri = uri
+                findViewById<ImageView>(R.id.imgPreview)
+                    .setImageURI(uri)
+            }
+        }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_expense)
@@ -27,6 +42,18 @@ class ExpenseActivity : AppCompatActivity() {
         val btnSaveExpense = findViewById<Button>(R.id.btnSaveExpense)
 
         val db = BudgetDatabase.getDatabase(this)
+
+        val btnChoosePhoto =
+            findViewById<Button>(R.id.btnChoosePhoto)
+
+        val imgPreview =
+            findViewById<ImageView>(R.id.imgPreview)
+
+        btnChoosePhoto.setOnClickListener {
+
+            imagePickerLauncher.launch("image/*")
+
+        }
 
         btnSaveExpense.setOnClickListener {
 
@@ -63,7 +90,7 @@ class ExpenseActivity : AppCompatActivity() {
                         startTime = startTime,
                         endTime = endTime,
                         categoryId = categoryIdText.toInt(),
-                        imageUri = null
+                        imageUri = selectedImageUri?.toString()
                     )
                 )
 
