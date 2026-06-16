@@ -11,11 +11,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplicationBudgetPlease">
+
         <activity
             android:name=".MainActivity"
             android:exported="false">
         </activity>
 
+        <activity
+            android:name=".activities.GraphActivity"/>
         <activity
             android:name=".activities.CategoryActivity"
             android:exported="false" />
@@ -27,6 +30,9 @@
         <activity
             android:name=".activities.ExpenseActivity"
             android:exported="false" />
+
+        <activity
+            android:name=".activities.BadgesActivity"/>
 
         <activity
             android:name=".activities.ReportsActivity"

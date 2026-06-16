@@ -43,4 +43,10 @@
         android:layout_height="wrap_content"
         android:text="Reports"/>
 
+    <Button
+        android:id="@+id/btnGraph"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Graph"/>
+
 </LinearLayout>

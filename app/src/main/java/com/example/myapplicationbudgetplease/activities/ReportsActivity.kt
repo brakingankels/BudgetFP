@@ -72,11 +72,42 @@ class ReportsActivity : AppCompatActivity() {
 
                 reportBuilder.append(
                     "Total Spent: R$grandTotal\n\n"
+
                 )
 
                 reportBuilder.append(
                     "Category Totals\n\n"
                 )
+                val goal =
+                    db.goalDao()
+                        .getLatestGoal()
+
+                if (goal != null) {
+
+                    reportBuilder.append(
+                        "Minimum Goal: R${goal.minimumGoal}\n"
+                    )
+
+                    reportBuilder.append(
+                        "Maximum Goal: R${goal.maximumGoal}\n\n"
+                    )
+
+                    val status = when {
+
+                        grandTotal < goal.minimumGoal ->
+                            "Below Minimum Goal"
+
+                        grandTotal <= goal.maximumGoal ->
+                            "Within Goal Range"
+
+                        else ->
+                            "Above Maximum Goal"
+                    }
+
+                    reportBuilder.append(
+                        "Status: $status\n\n"
+                    )
+                }
 
                 for ((categoryId, total) in categoryTotals) {
 
@@ -87,8 +118,14 @@ class ReportsActivity : AppCompatActivity() {
                     val categoryName =
                         category?.name ?: "Unknown"
 
+                    val barLength =
+                        (total / 100).toInt().coerceAtLeast(1)
+
+                    val bar =
+                        "█".repeat(barLength)
+
                     reportBuilder.append(
-                        "$categoryName : R$total\n"
+                        "$categoryName : R$total\n$bar\n\n"
                     )
                 }
 

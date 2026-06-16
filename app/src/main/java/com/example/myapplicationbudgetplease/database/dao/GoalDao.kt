@@ -1,6 +1,5 @@
 package com.example.myapplicationbudgetplease.database.dao
 
-
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
@@ -14,4 +13,8 @@ interface GoalDao {
 
     @Query("SELECT * FROM goals")
     suspend fun getGoals(): List<Goal>
+
+    @Query("SELECT * FROM goals ORDER BY id DESC LIMIT 1")
+    suspend fun getLatestGoal(): Goal?
+
 }

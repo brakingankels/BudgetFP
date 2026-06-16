@@ -31,4 +31,23 @@
         android:layout_height="wrap_content"
         android:max="10000"/>
 
+    <TextView
+        android:id="@+id/txtGoalProgress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Progress"
+        android:textSize="18sp" />
+
+    <ProgressBar
+        android:id="@+id/progressGoal"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="100" />
+
+    <TextView
+        android:id="@+id/txtProgressDetails"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No data yet" />
 </LinearLayout>

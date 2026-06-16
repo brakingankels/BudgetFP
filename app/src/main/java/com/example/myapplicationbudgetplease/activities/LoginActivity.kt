@@ -7,6 +7,9 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplicationbudgetplease.R
+import androidx.lifecycle.lifecycleScope
+import com.example.myapplicationbudgetplease.database.BudgetDatabase
+import kotlinx.coroutines.launch
 
 class LoginActivity : AppCompatActivity() {
 
@@ -25,16 +28,44 @@ class LoginActivity : AppCompatActivity() {
         btnRegisterMain = findViewById(R.id.btnRegisterMain)
 
         // Existing Hardcoded Login Logic
-        btnLogin.setOnClickListener {
-            val username = edtUsername.text.toString()
-            val password = edtPassword.text.toString()
+        val db =
+            BudgetDatabase.getDatabase(this)
 
-            // This is where your hardcoded check lives
-            if (username == "admin" && password == "admin123") {
-                startActivity(Intent(this, DashboardActivity::class.java))
-                finish() // Optional: Closes LoginActivity so clicking 'back' doesn't return here
-            } else {
-                Toast.makeText(this, "Invalid Username or Password", Toast.LENGTH_SHORT).show()
+        btnLogin.setOnClickListener {
+
+            val username =
+                edtUsername.text.toString().trim()
+
+            val password =
+                edtPassword.text.toString().trim()
+
+            lifecycleScope.launch {
+
+                val user =
+                    db.userDao().login(
+                        username,
+                        password
+                    )
+
+                if (user != null) {
+
+                    startActivity(
+                        Intent(
+                            this@LoginActivity,
+                            DashboardActivity::class.java
+                        )
+                    )
+
+                    finish()
+
+                } else {
+
+                    Toast.makeText(
+                        this@LoginActivity,
+                        "Invalid Username or Password",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
         }
 

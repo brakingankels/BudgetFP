@@ -76,5 +76,17 @@ class DashboardActivity : AppCompatActivity() {
                 )
             )
         }
+        val btnGraph =
+            findViewById<Button>(R.id.btnGraph)
+
+        btnGraph.setOnClickListener {
+
+            startActivity(
+                Intent(
+                    this,
+                    GraphActivity::class.java
+                )
+            )
+        }
     }
 }
